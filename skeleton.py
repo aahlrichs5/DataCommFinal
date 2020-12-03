@@ -3,20 +3,25 @@ from socket import *
 import sys  # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
 # Prepare a sever socket
-# Fill in start
-# Fill in end
+TCP_PORT = 8000
+BUFFER_SIZE = 1024
+
+serverSocket.bind(('', TCP_PORT))
+serverSocket.listen(1)
+
 while True:
  	# Establish the connection
     print('Ready to serve...')
-    connectionSocket, addr =  # Fill in start	 	#Fill in end
+    connectionSocket, addr =  serverSocket.accept()
+    print('Connection address:', addr)
     try:
-        message =  # Fill in start 		#Fill in end
+        message =  connectionSocket.recv(BUFFER_SIZE)
         filename = message.split()[1]
  		f = open(filename[1:])
-        outputdata =  # Fill in start 		#Fill in end
+        outputdata =  f.read()
         # Send one HTTP header line into socket
-        # Fill in start
-        # Fill in end
+        connectionSocket.send('HTTP/1.0 200 OK\r\n')
+
         # Send the content of the requested file to the client
  		for i in range(0, len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
@@ -25,8 +30,10 @@ while True:
         connectionSocket.close()
  	except IOError:
  		# Send response message for file not found
-        # Fill in start 
-        # Fill in end
+        fail = '''<html> <head> <title> 404 </title> </head> <body><h1>404 Bruh</h1> <h3> hushies! </h3> </body></html>'''
+        connectionSocket.send('HTTP/1.0 200 OK\r\n')
+        for q in fail:
+                connectionSocket.send(q)
  		# Close client socket
          # Fill in start
  		# Fill in end
