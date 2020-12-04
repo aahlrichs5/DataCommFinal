@@ -1,8 +1,10 @@
+# http://127.0.0.1:8765/index.html
+
 # import socket module
 from socket import *
 import sys  # In order to terminate the program
 serverSocket = socket(AF_INET, SOCK_STREAM)
-SERVER_HOST = '192.168.56.1'
+SERVER_HOST = '127.0.0.1'
 # Prepare a sever socket
 TCP_PORT = 8765
 BUFFER_SIZE = 1024
@@ -32,6 +34,6 @@ while True:
     except IOError:
         # Send response message for file not found
         connectionSocket.send(bytes('HTTP/1.1 404 Not Found\r\n\r\n', 'UTF-8'))
-        serverSocket.close()
-    serverSocket.close()
+        connectionSocket.close()
+serverSocket.close()
 sys.exit()  # Terminate the program after sending the corresponding data
